@@ -1,3 +1,4 @@
+#pragma once
 #include "raylib.h"
 #include "raymath.h"
 #include <vector>
@@ -6,6 +7,9 @@
 class Shapes
 {
 private:
+
+
+protected:
 
 	float dx, dy, steps, xinc, yinc;
 

@@ -1,3 +1,4 @@
+#pragma once
 #include "Shapes.hpp"
 
 using namespace std;

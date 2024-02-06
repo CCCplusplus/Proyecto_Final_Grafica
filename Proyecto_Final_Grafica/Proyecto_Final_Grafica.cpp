@@ -1,6 +1,7 @@
 #include <iostream>
 #include "raylib.h"
 #include "Shapes.hpp"
+#include "Player.hpp"
 
 using namespace std;
 
@@ -13,6 +14,7 @@ int main()
     InitWindow(width, height, "Pac-Man (the game I totally just invented)");
     SetTargetFPS(60);
     Shapes shapes;
+    Player pacman;
 
 
     while (!WindowShouldClose())
@@ -20,11 +22,14 @@ int main()
         BeginDrawing();
         ClearBackground(background);
 
-        shapes.drawTriangle(100, 100, 200, 100, 150, 50, color);
+        pacman.drawCircleShape(width / 2, height / 2, 50, YELLOW);
+        pacman.FillCircle(width / 2, height / 2, 50, YELLOW);
 
         EndDrawing();
     }
     CloseWindow();
+
+    
     return 0;
 }
 
