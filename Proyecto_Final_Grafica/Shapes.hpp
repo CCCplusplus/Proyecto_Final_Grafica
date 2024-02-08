@@ -17,7 +17,7 @@ protected:
 public:
 
 	std::vector<float> linePoints;
-		void drawPixelDDA(int xa, int ya, int xb, int yb, Color color) { //ahora con tiempo podemos reducir el codigo un poco
+	void drawPixelDDA(int xa, int ya, int xb, int yb, Color color) { //ahora con tiempo podemos reducir el codigo un poco
 
 		dx = xb - xa;
 
@@ -33,10 +33,42 @@ public:
 
 		for (int i = 0; i <= steps; i++) {
 			linePoints.push_back(x);
-			DrawPixel(round(x), round(y), color);
+			linePoints.push_back(y);
 			x += xinc;
 			y += yinc;
 		}
+
+		for (int j = 0; j < linePoints.size(); j += 2)
+			DrawPixel(round(linePoints[j]), round(linePoints[j +1]), color);
+		
+	}
+
+	void SaveLinePoints(int xa, int ya, int xb, int yb, Color color)
+	{
+		dx = xb - xa;
+
+		dy = yb - ya;
+
+		steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
+
+		float xinc = dx / (float)steps;
+		float yinc = dy / (float)steps;
+
+		float x = xa;
+		float y = ya;
+
+		for (int i = 0; i <= steps; i++) {
+			linePoints.push_back(x);
+			linePoints.push_back(y);
+			x += xinc;
+			y += yinc;
+		}
+	}
+
+	void drawPixelLinePoints(Color color)
+	{
+		for (int j = 0; j < linePoints.size(); j += 2)
+			DrawPixel(round(linePoints[j]), round(linePoints[j + 1]), color);
 	}
 
 	void drawCircleOutline(int xc, int yc, int radius, Color color) {

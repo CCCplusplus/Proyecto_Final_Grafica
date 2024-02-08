@@ -16,14 +16,18 @@ int main()
     Shapes shapes;
     Player pacman;
 
-
     while (!WindowShouldClose())
     {
+        
+        
         BeginDrawing();
         ClearBackground(background);
 
-        pacman.drawCircleShape(width / 2, height / 2, 50, YELLOW);
-        pacman.FillCircle(width / 2, height / 2, 50, YELLOW);
+
+        pacman.MoveMatrix(5, 0);
+
+        pacman.Draw();
+
 
         EndDrawing();
     }
