@@ -65,6 +65,7 @@ public:
 		}
 	}
 
+	//Para que se dibuje solo apartir de Linepoints.
 	void drawPixelLinePoints(Color color)
 	{
 		for (int j = 0; j < linePoints.size(); j += 2)

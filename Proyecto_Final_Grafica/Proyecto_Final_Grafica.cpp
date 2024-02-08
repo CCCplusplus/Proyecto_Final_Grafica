@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "Shapes.hpp"
 #include "Player.hpp"
+#include "Enemy.hpp"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ int main()
     SetTargetFPS(60);
     Shapes shapes;
     Player pacman;
+    Enemy evilboi;
 
     while (!WindowShouldClose())
     {
@@ -23,10 +25,16 @@ int main()
         BeginDrawing();
         ClearBackground(background);
 
+        //pacman.MoveMatrix(5, 0);
 
-        pacman.MoveMatrix(5, 0);
+        pacman.ScaleMatrix(0.01, 0.001);
 
         pacman.Draw();
+
+
+        evilboi.RotateMatrix(1);
+
+        evilboi.Draw();
 
 
         EndDrawing();
