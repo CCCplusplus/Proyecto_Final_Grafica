@@ -34,12 +34,11 @@ public:
 		for (int i = 0; i <= steps; i++) {
 			linePoints.push_back(x);
 			linePoints.push_back(y);
+			DrawPixel(x, y, color);
 			x += xinc;
 			y += yinc;
 		}
 
-		for (int j = 0; j < linePoints.size(); j += 2)
-			DrawPixel(round(linePoints[j]), round(linePoints[j +1]), color);
 		
 	}
 
@@ -73,7 +72,7 @@ public:
 	}
 
 	void drawCircleOutline(int xc, int yc, int radius, Color color) {
-		int angleStep = 10;
+		int angleStep = 20;
 		for (int angle = 0; angle < 180; angle += angleStep) {
 			float radStart = angle * (PI / 180.0f);
 			float radEnd = (angle + 180) * (PI / 180.0f);

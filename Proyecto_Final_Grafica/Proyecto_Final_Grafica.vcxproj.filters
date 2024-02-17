@@ -32,5 +32,8 @@
     <ClInclude Include="Enemy.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Walls.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

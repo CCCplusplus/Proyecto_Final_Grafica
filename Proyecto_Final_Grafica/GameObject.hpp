@@ -5,9 +5,24 @@ using namespace std;
 
 struct Points
 {
-	int x, y;
+	float x, y;
 	int one = 1;
 };
+
+struct AABB {
+    float minX, minY;
+    float maxX, maxY;
+
+    AABB() : minX(0), minY(0), maxX(0), maxY(0) {}
+    AABB(float minX, float minY, float maxX, float maxY) : minX(minX), minY(minY), maxX(maxX), maxY(maxY) {}
+
+
+    bool overlaps(const AABB& other) const {
+        return maxX >= other.minX && minX <= other.maxX &&
+            maxY >= other.minY && minY <= other.maxY;
+    }
+};
+
 
 class GameObject : public Shapes
 {
@@ -90,8 +105,9 @@ public:
             sumX += linePoints[i];
             sumY += linePoints[i + 1];
         }
-        return { static_cast<int>(sumX / pointsCount), static_cast<int>(sumY / pointsCount), 1 };
+        return { sumX / pointsCount, sumY / pointsCount, 1 };
     }
+
 
 
     void ScaleMatrix(float scaleX, float scaleY) {
@@ -122,6 +138,32 @@ public:
         linePoints = newLinePoints;
     }
 
+    // Agrega en la clase GameObject
+    AABB calculateAABB() const {
+        float minX = std::numeric_limits<float>::max();
+        float maxX = std::numeric_limits<float>::lowest();
+        float minY = std::numeric_limits<float>::max();
+        float maxY = std::numeric_limits<float>::lowest();
+
+        for (size_t i = 0; i < linePoints.size(); i += 2) {
+            float x = linePoints[i];
+            float y = linePoints[i + 1];
+            minX = std::min(minX, x);
+            maxX = std::max(maxX, x);
+            minY = std::min(minY, y);
+            maxY = std::max(maxY, y);
+        }
+
+        return AABB(minX, minY, maxX, maxY);
+    }
+
+
+    bool Collider(const GameObject& other) const {
+        AABB box1 = this->calculateAABB();
+        AABB box2 = other.calculateAABB();
+
+        return box1.overlaps(box2);
+    }
 
 };
 
