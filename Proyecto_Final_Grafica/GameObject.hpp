@@ -29,6 +29,9 @@ class GameObject : public Shapes
 public:
 	
     vector<Points> transformedPoints;
+    mutable AABB cachedAABB; //un AABB que se guardara hasta que se detecten cambios en la posicion del objeto
+    mutable bool needsAABBUpdate = true; //booleano para saber si se necesita cambiar el AABB
+    //los dos mutables para que se puedan cambiar en las funciones constantes.
 
     // Actualiza MoveMatrix para aplicar traslación.
     void MoveMatrix(int distanceX, int distanceY) {
@@ -61,6 +64,7 @@ public:
         }
 
         // Actualiza linePoints con los nuevos puntos trasladados.
+        needsAABBUpdate = true;
         linePoints = newLinePoints;
     }
 	
@@ -93,7 +97,8 @@ public:
             newLinePoints.push_back(newY);
         }
 
-        // Actualiza linePoints con los puntos rotados.
+
+        needsAABBUpdate = true;
         linePoints = newLinePoints;
     }
 
@@ -140,6 +145,11 @@ public:
 
     // Agrega en la clase GameObject
     AABB calculateAABB() const {
+        if (!needsAABBUpdate) {
+
+            return cachedAABB;
+        }
+
         float minX = std::numeric_limits<float>::max();
         float maxX = std::numeric_limits<float>::lowest();
         float minY = std::numeric_limits<float>::max();
@@ -154,9 +164,15 @@ public:
             maxY = std::max(maxY, y);
         }
 
-        return AABB(minX, minY, maxX, maxY);
+        cachedAABB = AABB(minX, minY, maxX, maxY);
+        needsAABBUpdate = false;
+
+        return cachedAABB;
     }
 
+    void ClearLinePoints() {
+        linePoints.clear();
+    }
 
     bool Collider(const GameObject& other) const {
         AABB box1 = this->calculateAABB();
@@ -164,7 +180,6 @@ public:
 
         return box1.overlaps(box2);
     }
-
 };
 
 //intente operar la matriz de rotacion igual que la de movimiento...

@@ -38,30 +38,7 @@ public:
 			x += xinc;
 			y += yinc;
 		}
-
 		
-	}
-
-	void SaveLinePoints(int xa, int ya, int xb, int yb, Color color)
-	{
-		dx = xb - xa;
-
-		dy = yb - ya;
-
-		steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
-
-		float xinc = dx / (float)steps;
-		float yinc = dy / (float)steps;
-
-		float x = xa;
-		float y = ya;
-
-		for (int i = 0; i <= steps; i++) {
-			linePoints.push_back(x);
-			linePoints.push_back(y);
-			x += xinc;
-			y += yinc;
-		}
 	}
 
 	//Para que se dibuje solo apartir de Linepoints.

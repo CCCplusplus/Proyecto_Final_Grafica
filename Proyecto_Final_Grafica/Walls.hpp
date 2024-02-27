@@ -5,12 +5,18 @@ class Walls : public GameObject
 {
 public:
 
+	int posx, posy, width, height;
+
+	Walls(int x, int y, int w, int h)
+	{
+		posx = x;
+		posy = y;
+		width = w;
+		height = h;
+	}
 
 	void Draw()
 	{
-		if (linePoints.empty())
-			drawRect(600, 300, 600, 800, 700, 800, 700, 300, BLUE);
-		else
-			drawPixelLinePoints(BLUE);
+		drawRect(posx, posy, posx, height + posy, width + posx, height + posy, width + posx, posy, BLUE);
 	}
 };
