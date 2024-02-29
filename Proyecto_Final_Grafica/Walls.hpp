@@ -13,6 +13,7 @@ public:
 		posy = y;
 		width = w;
 		height = h;
+		objectType = Paredes;
 	}
 
 	void Draw()

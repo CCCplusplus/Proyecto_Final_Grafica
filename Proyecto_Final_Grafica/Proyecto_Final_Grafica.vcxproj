@@ -132,7 +132,9 @@
   <ItemGroup>
     <ClInclude Include="Enemy.hpp" />
     <ClInclude Include="GameObject.hpp" />
+    <ClInclude Include="Pellets.hpp" />
     <ClInclude Include="Player.hpp" />
+    <ClInclude Include="PowerPellet.hpp" />
     <ClInclude Include="Shapes.hpp" />
     <ClInclude Include="Walls.hpp" />
   </ItemGroup>

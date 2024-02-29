@@ -23,11 +23,15 @@ struct AABB {
     }
 };
 
-
 class GameObject : public Shapes
 {
+
 public:
+
+    enum Type
+    { Jugador = 1, Enemigos = 2, Paredes = 3, Bolitas = 4, PowerBolitas = 5, SuperPacMan = 6 };
 	
+    Type objectType;
     vector<Points> transformedPoints;
     mutable AABB cachedAABB; //un AABB que se guardara hasta que se detecten cambios en la posicion del objeto
     mutable bool needsAABBUpdate = true; //booleano para saber si se necesita cambiar el AABB
