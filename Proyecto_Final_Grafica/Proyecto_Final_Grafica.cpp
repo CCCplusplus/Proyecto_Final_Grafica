@@ -92,7 +92,10 @@ int main()
 	Walls Wall42 = Walls(width / 2 - 10, 835, 20, 110);
 	Walls Wall43 = Walls(width / 2 - 95, 835, 190, 20);
 
-	Pellets pellet(500, 640);
+	Pellets pellet(86, 40);
+	Pellets pellet2(68, 40);
+	Pellets pellet3(40, 68);
+	Pellets pellet4(40, 86);
 
 	// Lista de objetos con los que el jugador puede colisionar
 	vector<GameObject*> gameObjects;
@@ -150,7 +153,7 @@ int main()
 	gameObjects.push_back(&Wall42);
 	gameObjects.push_back(&Wall43);
 
-	gameObjects.push_back(&pacman);
+	pacObjects.push_back(&pacman);
 
 	gameObjects.push_back(&evilboi);
 
@@ -216,18 +219,27 @@ int main()
 
 
 		
-		powerup1.Draw(40, 40, 15, RAYWHITE);
-		powerup2.Draw(40, height-40, 15, RAYWHITE);
-		powerup3.Draw(width-40, 40, 15, RAYWHITE);
-		powerup4.Draw(width-40, height-40, 15, RAYWHITE);
+		powerup1.Draw(40, 40, 14, RAYWHITE);
+		powerup2.Draw(40, height-40, 14, RAYWHITE);
+		powerup3.Draw(width-40, 40, 14, RAYWHITE);
+		powerup4.Draw(width-40, height-40, 14, RAYWHITE);
 
 		pacman.Update(gameObjects);
 		pacman.Draw(400, 640, 18, 3, width, YELLOW);
-		powerup1.Update(gameObjects);
-		powerup2.Update(gameObjects);
-		powerup3.Update(gameObjects);
-		powerup4.Update(gameObjects);
+		powerup1.Update(pacObjects);
+		powerup2.Update(pacObjects);
+		powerup3.Update(pacObjects);
+		powerup4.Update(pacObjects);
 		pellet.Draw();
+		pellet2.Draw();
+		pellet3.Draw();
+		pellet4.Draw();
+
+		pellet.Update(pacObjects);
+		pellet2.Update(pacObjects);
+		pellet3.Update(pacObjects);
+		pellet4.Update(pacObjects);
+
 
 		EndDrawing();
 		//Cuando termines de dibujar en el loop borra los linepoints de todos los objetos estaticos.
@@ -283,6 +295,11 @@ int main()
 		Wall42.ClearLinePoints();
 		Wall43.ClearLinePoints();
 		pellet.ClearLinePoints();
+		pellet.ClearLinePoints();
+		powerup1.ClearLinePoints();
+		powerup2.ClearLinePoints();
+		powerup3.ClearLinePoints();
+		powerup4.ClearLinePoints();
 	}
 	CloseWindow();
 

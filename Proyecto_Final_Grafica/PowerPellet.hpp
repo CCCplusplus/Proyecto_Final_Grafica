@@ -6,16 +6,16 @@ class PowerPellet : public GameObject
 private:
     int posX, posY, radio;
 
+    bool touched = false;
+
 public:
     void Draw(int x, int y, int rad, Color color)
     {
         posX = x;
         posY = y;
         radio = rad;
-        if(linePoints.empty())
+        if(!touched)
         FillCircle(posX, posY, radio, color);
-        else
-            drawPixelLinePoints(color);
     }
 
     void Update(const vector<GameObject*>& otherObjects)
@@ -29,6 +29,8 @@ public:
             {
                 // Aplica una transformación de escala para simular un efecto específico.
                 ScaleMatrix(0.01f, 0.01f);
+
+                touched = true;
 
                 break; 
             }

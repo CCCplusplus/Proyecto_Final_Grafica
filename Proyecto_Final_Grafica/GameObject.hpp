@@ -30,6 +30,8 @@ public:
 
     enum Type
     { Jugador = 1, Enemigos = 2, Paredes = 3, Bolitas = 4, PowerBolitas = 5, SuperPacMan = 6 };
+
+
 	
     Type objectType;
     vector<Points> transformedPoints;
