@@ -7,10 +7,18 @@ private:
     int posX, posY, radio, velo, velx, vely, width;
     float score = 0;
 
+    double powerupTime = 0.0;
+
     bool iscolliding = false;
     bool faceRight = true, faceLeft, faceUp, faceDown;
 
+    bool dead = false;
+
+    Sound death = LoadSound("resources/pacman_death.wav");
+
 public:
+
+
     void Draw(int x, int y, int rad, int vel, int ancho, Color color)
     {
         Points center = CalculateCenter();
@@ -56,6 +64,16 @@ public:
     }
 
     void Update(const vector<GameObject*>& otherObjects) {
+
+        if (verification)
+            PowerDown();
+
+        if (objectType == SuperPacMan) 
+            if (GetTime() - powerupTime >= 3.0)
+                objectType = Jugador;
+        
+
+
         iscolliding = false;
         int objectID;
 
@@ -73,48 +91,51 @@ public:
 
 
         if (!iscolliding) {
-            if (IsKeyPressed(KEY_D))
+            if (!dead)
             {
-                velx = velo;
-                vely = 0;
-                RotatePacman(faceRight, faceDown, faceUp, faceLeft);
-                faceRight = true;
-                faceLeft = false;
-                faceDown = false;
-                faceUp = false;
-            }
-            if (IsKeyPressed(KEY_A))
-            {
-                velx = -velo;
-                vely = 0;
-                RotatePacman(faceLeft, faceUp, faceDown, faceRight);
-                faceRight = false;
-                faceLeft = true;
-                faceDown = false;
-                faceUp = false;
-            }
-            if (IsKeyPressed(KEY_W))
-            {
-                vely = -velo;
-                velx = 0;
-                RotatePacman(faceUp, faceRight, faceLeft, faceDown);
-                faceRight = false;
-                faceLeft = false;
-                faceDown = false;
-                faceUp = true;
-            }
-            if (IsKeyPressed(KEY_S))
-            {
-                vely = velo;
-                velx = 0;
-                RotatePacman(faceDown, faceLeft, faceRight, faceUp);
-                faceRight = false;
-                faceLeft = false;
-                faceDown = true;
-                faceUp = false;
-            }
+                if (IsKeyPressed(KEY_D))
+                {
+                    velx = velo;
+                    vely = 0;
+                    RotatePacman(faceRight, faceDown, faceUp, faceLeft);
+                    faceRight = true;
+                    faceLeft = false;
+                    faceDown = false;
+                    faceUp = false;
+                }
+                if (IsKeyPressed(KEY_A))
+                {
+                    velx = -velo;
+                    vely = 0;
+                    RotatePacman(faceLeft, faceUp, faceDown, faceRight);
+                    faceRight = false;
+                    faceLeft = true;
+                    faceDown = false;
+                    faceUp = false;
+                }
+                if (IsKeyPressed(KEY_W))
+                {
+                    vely = -velo;
+                    velx = 0;
+                    RotatePacman(faceUp, faceRight, faceLeft, faceDown);
+                    faceRight = false;
+                    faceLeft = false;
+                    faceDown = false;
+                    faceUp = true;
+                }
+                if (IsKeyPressed(KEY_S))
+                {
+                    vely = velo;
+                    velx = 0;
+                    RotatePacman(faceDown, faceLeft, faceRight, faceUp);
+                    faceRight = false;
+                    faceLeft = false;
+                    faceDown = true;
+                    faceUp = false;
+                }
 
-            MoveMatrix(velx, vely);
+                MoveMatrix(velx, vely);
+            }
         }
         else
         {
@@ -123,12 +144,16 @@ public:
                 ScaleMatrix(0.01, 0.01);
                 velx = 0;
                 vely = 0;
-                //detener el loop 
+                if (!dead) 
+                {
+                    PlaySound(death);
+                    dead = true;
+                }
             }
             if (objectID == 3)
             {
-                velx *= -2;
-                vely *= -2;
+                velx *= -5;
+                vely *= -5;
 
                 MoveMatrix(velx, vely);
 
@@ -180,9 +205,14 @@ public:
                 MoveMatrix(velx, vely);
             }
             if (objectID == 4)
+            {
                 score += 100;
-            if (objectID == 5)
-                this->objectType = SuperPacMan; //poner un timer que le devuelva el Type de Player despues de 3 segundos
+                cout << score << "\n";
+            }
+            if (objectID == 5) {
+                this->objectType = SuperPacMan;
+                PowerDown();
+            }
         }
     }
 
@@ -203,6 +233,15 @@ public:
         else if (backFace)
         {
             RotateMatrix(180);
+        }
+    }
+
+    void PowerDown() 
+    {
+        if (objectType == SuperPacMan)
+        {
+            verification = false;
+            powerupTime = GetTime();
         }
     }
 };

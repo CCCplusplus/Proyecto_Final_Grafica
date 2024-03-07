@@ -135,8 +135,12 @@
     <ClInclude Include="Pellets.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="PowerPellet.hpp" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Shapes.hpp" />
     <ClInclude Include="Walls.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Proyecto_Final_Grafica.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

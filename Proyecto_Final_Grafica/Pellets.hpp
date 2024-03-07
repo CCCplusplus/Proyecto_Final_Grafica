@@ -8,6 +8,7 @@ private:
 
     bool touched = false;
 
+
 public:
 	Pellets(int x, int y)
 	{
@@ -33,9 +34,9 @@ public:
             {
                 // Aplica una transformación de escala para simular un efecto específico.
                 ScaleMatrix(0.01f, 0.01f);
-
+                
                 touched = true;
-
+                
                 break;
             }
         }

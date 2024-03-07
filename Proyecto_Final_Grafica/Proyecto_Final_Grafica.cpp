@@ -16,22 +16,25 @@ int main()
 	const int width = 800;
 	const int height = 1000;
 	InitWindow(width, height, "Pac-Man (the game I totally just invented)");
+	InitAudioDevice();
 	SetTargetFPS(60);
 
 	Player pacman;
-	Enemy evilboi;
-	PowerPellet powerup1;
-	PowerPellet powerup2;
-	PowerPellet powerup3;
-	PowerPellet powerup4;
+	Enemy blinky;
+	Enemy pinky;
+	Enemy inky;
+	Enemy clyde;
+	PowerPellet powerup1 = PowerPellet(35, 90);
+	PowerPellet powerup2 = PowerPellet(35, 815);
+	PowerPellet powerup3 = PowerPellet(width - 35, 85);
+	PowerPellet powerup4 = PowerPellet(width - 35, 815);
 
 
 	pacman.objectType = pacman.Jugador;
-	evilboi.objectType = evilboi.Enemigos;
-	powerup1.objectType = powerup1.PowerBolitas;
-	powerup2.objectType = powerup2.PowerBolitas;
-	powerup3.objectType = powerup3.PowerBolitas;
-	powerup4.objectType = powerup4.PowerBolitas;
+	blinky.objectType = blinky.Enemigos;
+	pinky.objectType = pinky.Enemigos;
+	inky.objectType = inky.Enemigos;
+	clyde.objectType = clyde.Enemigos;
 
 
 	//Paredes limite y centro
@@ -46,12 +49,8 @@ int main()
 	//Paredes de la izquierda
 	Walls Wall1 = Walls(75, 70, 70, 50);
 	Walls Wall2 = Walls(75, 185, 70, 30);
-	Walls Wall3 = Walls(-5, 285, 150, 10);
-	Walls Wall4 = Walls(135, 295, 10, 150);
-	Walls Wall5 = Walls(-5, 445, 150, 10);
-	Walls Wall6 = Walls(-5, 520, 150, 10);
-	Walls Wall7 = Walls(135, 530, 10, 150);
-	Walls Wall8 = Walls(-5, 680, 150, 10);
+	Walls Wall3 = Walls(-5, 285, 150, 170);
+	Walls Wall6 = Walls(-5, 520, 150, 170);
 	Walls Wall9 = Walls(75, 755, 70, 30);
 	Walls Wall10 = Walls(115, 785, 30, 80);
 	Walls Wall11 = Walls(-5, 845, 50, 20);
@@ -66,12 +65,8 @@ int main()
 	//Paredes de la derecha
 	Walls Wall19 = Walls(width - 151, 70, 70, 50);
 	Walls Wall20 = Walls(width - 151, 185, 70, 30);
-	Walls Wall21 = Walls(width - 151, 285, 150, 10);
-	Walls Wall22 = Walls(width - 151, 295, 10, 150);
-	Walls Wall23 = Walls(width - 151, 445, 150, 10);
-	Walls Wall24 = Walls(width - 151, 520, 150, 10);
-	Walls Wall25 = Walls(width - 151, 530, 10, 150);
-	Walls Wall26 = Walls(width - 151, 680, 150, 10);
+	Walls Wall21 = Walls(width - 151, 285, 150, 170);
+	Walls Wall24 = Walls(width - 151, 520, 150, 170);
 	Walls Wall27 = Walls(width - 151, 760, 70, 30);
 	Walls Wall28 = Walls(width - 151, 790, 30, 80);
 	Walls Wall29 = Walls(width - 51, 850, 50, 20);
@@ -92,14 +87,12 @@ int main()
 	Walls Wall42 = Walls(width / 2 - 10, 835, 20, 110);
 	Walls Wall43 = Walls(width / 2 - 95, 835, 190, 20);
 
-	Pellets pellet(86, 40);
-	Pellets pellet2(68, 40);
-	Pellets pellet3(40, 68);
-	Pellets pellet4(40, 86);
-
 	// Lista de objetos con los que el jugador puede colisionar
 	vector<GameObject*> gameObjects;
+	vector<GameObject*> gameObjects2;
 	vector<GameObject*> pacObjects;
+	vector<GameObject*> enemyObjects;
+	vector<Pellets> pellets;
 
 	gameObjects.push_back(&topWall);
 	gameObjects.push_back(&bottomWall);
@@ -112,11 +105,7 @@ int main()
 	gameObjects.push_back(&Wall1);
 	gameObjects.push_back(&Wall2);
 	gameObjects.push_back(&Wall3);
-	gameObjects.push_back(&Wall4);
-	gameObjects.push_back(&Wall5);
 	gameObjects.push_back(&Wall6);
-	gameObjects.push_back(&Wall7);
-	gameObjects.push_back(&Wall8);
 	gameObjects.push_back(&Wall9);
 	gameObjects.push_back(&Wall10);
 	gameObjects.push_back(&Wall11);
@@ -130,11 +119,7 @@ int main()
 	gameObjects.push_back(&Wall19);
 	gameObjects.push_back(&Wall20);
 	gameObjects.push_back(&Wall21);
-	gameObjects.push_back(&Wall22);
-	gameObjects.push_back(&Wall23);
 	gameObjects.push_back(&Wall24);
-	gameObjects.push_back(&Wall25);
-	gameObjects.push_back(&Wall26);
 	gameObjects.push_back(&Wall27);
 	gameObjects.push_back(&Wall28);
 	gameObjects.push_back(&Wall29);
@@ -153,17 +138,75 @@ int main()
 	gameObjects.push_back(&Wall42);
 	gameObjects.push_back(&Wall43);
 
+	gameObjects2.push_back(&topWall);
+	gameObjects2.push_back(&bottomWall);
+	gameObjects2.push_back(&leftTopWall);
+	gameObjects2.push_back(&leftBottomWall);
+	gameObjects2.push_back(&rightTopWall);
+	gameObjects2.push_back(&rightBottomWall);
+
+	gameObjects2.push_back(&Wall1);
+	gameObjects2.push_back(&Wall2);
+	gameObjects2.push_back(&Wall3);
+	gameObjects2.push_back(&Wall6);
+	gameObjects2.push_back(&Wall9);
+	gameObjects2.push_back(&Wall10);
+	gameObjects2.push_back(&Wall11);
+	gameObjects2.push_back(&Wall12);
+	gameObjects2.push_back(&Wall13);
+	gameObjects2.push_back(&Wall14);
+	gameObjects2.push_back(&Wall15);
+	gameObjects2.push_back(&Wall16);
+	gameObjects2.push_back(&Wall17);
+	gameObjects2.push_back(&Wall18);
+	gameObjects2.push_back(&Wall19);
+	gameObjects2.push_back(&Wall20);
+	gameObjects2.push_back(&Wall21);
+	gameObjects2.push_back(&Wall24);
+	gameObjects2.push_back(&Wall27);
+	gameObjects2.push_back(&Wall28);
+	gameObjects2.push_back(&Wall29);
+	gameObjects2.push_back(&Wall30);
+	gameObjects2.push_back(&Wall31);
+	gameObjects2.push_back(&Wall32);
+	gameObjects2.push_back(&Wall33);
+	gameObjects2.push_back(&Wall34);
+	gameObjects2.push_back(&Wall35);
+	gameObjects2.push_back(&Wall36);
+	gameObjects2.push_back(&Wall37);
+	gameObjects2.push_back(&Wall38);
+	gameObjects2.push_back(&Wall39);
+	gameObjects2.push_back(&Wall40);
+	gameObjects2.push_back(&Wall41);
+	gameObjects2.push_back(&Wall42);
+	gameObjects2.push_back(&Wall43);
+	
+
 	pacObjects.push_back(&pacman);
 
-	gameObjects.push_back(&evilboi);
+	enemyObjects.push_back(&blinky);
+	enemyObjects.push_back(&pinky);
+	enemyObjects.push_back(&inky);
+	enemyObjects.push_back(&clyde);
+
+
+	for (int y = 30; y < height - 15; y += 45)
+	{
+		for (int x = 35; x < width - 20; x += 45)
+		{
+			pellets.push_back(Pellets(x, y));
+		}
+	}
 
 	while (!WindowShouldClose())
 	{
 		BeginDrawing();
 		ClearBackground(background);
-		//cout << GetFPS() << "\n";
-		//evilboi.RotateMatrix(90);
-		//evilboi.Draw();
+		cout << GetFPS() << "\n";
+		blinky.Draw(375, 430, 425, 430, width/2, 395, width, RED);
+		pinky.Draw(305, 500, 355, 500, width / 2 -70, 465, width, PINK);
+		inky.Draw(375, 500, 425, 500, width / 2, 465, width, SKYBLUE);
+		clyde.Draw(375 +70, 500, 425 +70, 500, width / 2 + 70, 465, width, ORANGE);
 
 		topWall.Draw();
 		bottomWall.Draw();
@@ -176,11 +219,7 @@ int main()
 		Wall1.Draw();
 		Wall2.Draw();
 		Wall3.Draw();
-		Wall4.Draw();
-		Wall5.Draw();
 		Wall6.Draw();
-		Wall7.Draw();
-		Wall8.Draw();
 		Wall9.Draw();
 		Wall10.Draw();
 		Wall11.Draw();
@@ -194,11 +233,7 @@ int main()
 		Wall19.Draw();
 		Wall20.Draw();
 		Wall21.Draw();
-		Wall22.Draw();
-		Wall23.Draw();
 		Wall24.Draw();
-		Wall25.Draw();
-		Wall26.Draw();
 		Wall27.Draw();
 		Wall28.Draw();
 		Wall29.Draw();
@@ -217,29 +252,35 @@ int main()
 		Wall42.Draw();
 		Wall43.Draw();
 
-
-		
-		powerup1.Draw(40, 40, 14, RAYWHITE);
-		powerup2.Draw(40, height-40, 14, RAYWHITE);
-		powerup3.Draw(width-40, 40, 14, RAYWHITE);
-		powerup4.Draw(width-40, height-40, 14, RAYWHITE);
+		powerup1.Draw();
+		powerup2.Draw();
+		powerup3.Draw();
+		powerup4.Draw();
 
 		pacman.Update(gameObjects);
+		pacman.Update(enemyObjects);
 		pacman.Draw(400, 640, 18, 3, width, YELLOW);
+
 		powerup1.Update(pacObjects);
 		powerup2.Update(pacObjects);
 		powerup3.Update(pacObjects);
 		powerup4.Update(pacObjects);
-		pellet.Draw();
-		pellet2.Draw();
-		pellet3.Draw();
-		pellet4.Draw();
 
-		pellet.Update(pacObjects);
-		pellet2.Update(pacObjects);
-		pellet3.Update(pacObjects);
-		pellet4.Update(pacObjects);
+		for (int i = 0; i < pellets.size(); i++)
+		{
+			pellets[i].Draw();
+			pellets[i].Update(pacObjects);
+			pellets[i].Update(gameObjects);
+		}
 
+		blinky.Update(gameObjects2);
+		pinky.Update(gameObjects2);
+		inky.Update(gameObjects2);
+		clyde.Update(gameObjects2);
+		blinky.Update(pacObjects);
+		pinky.Update(pacObjects);
+		inky.Update(pacObjects);
+		clyde.Update(pacObjects);
 
 		EndDrawing();
 		//Cuando termines de dibujar en el loop borra los linepoints de todos los objetos estaticos.
@@ -254,11 +295,7 @@ int main()
 		Wall1.ClearLinePoints();
 		Wall2.ClearLinePoints();
 		Wall3.ClearLinePoints();
-		Wall4.ClearLinePoints();
-		Wall5.ClearLinePoints();
 		Wall6.ClearLinePoints();
-		Wall7.ClearLinePoints();
-		Wall8.ClearLinePoints();
 		Wall9.ClearLinePoints();
 		Wall10.ClearLinePoints();
 		Wall11.ClearLinePoints();
@@ -272,11 +309,7 @@ int main()
 		Wall19.ClearLinePoints();
 		Wall20.ClearLinePoints();
 		Wall21.ClearLinePoints();
-		Wall22.ClearLinePoints();
-		Wall23.ClearLinePoints();
 		Wall24.ClearLinePoints();
-		Wall25.ClearLinePoints();
-		Wall26.ClearLinePoints();
 		Wall27.ClearLinePoints();
 		Wall28.ClearLinePoints();
 		Wall29.ClearLinePoints();
@@ -294,13 +327,16 @@ int main()
 		Wall41.ClearLinePoints();
 		Wall42.ClearLinePoints();
 		Wall43.ClearLinePoints();
-		pellet.ClearLinePoints();
-		pellet.ClearLinePoints();
 		powerup1.ClearLinePoints();
 		powerup2.ClearLinePoints();
 		powerup3.ClearLinePoints();
 		powerup4.ClearLinePoints();
+		for (int i = 0; i < pellets.size(); i++)
+		{
+			pellets[i].ClearLinePoints();
+		}
 	}
+	CloseAudioDevice();
 	CloseWindow();
 
 	return 0;

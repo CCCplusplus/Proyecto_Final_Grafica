@@ -1,21 +1,28 @@
 #pragma once
 #include "GameObject.hpp"
 
+
 class PowerPellet : public GameObject
 {
 private:
-    int posX, posY, radio;
+    int posX, posY;
+
+
+public:
 
     bool touched = false;
 
-public:
-    void Draw(int x, int y, int rad, Color color)
+    PowerPellet(int x, int y)
     {
         posX = x;
         posY = y;
-        radio = rad;
+        objectType = PowerBolitas;
+    }
+
+    void Draw()
+    {
         if(!touched)
-        FillCircle(posX, posY, radio, color);
+        FillCircle(posX, posY, 14, RAYWHITE);
     }
 
     void Update(const vector<GameObject*>& otherObjects)
@@ -31,6 +38,13 @@ public:
                 ScaleMatrix(0.01f, 0.01f);
 
                 touched = true;
+
+                if (obj->objectType == 1)
+                {
+                    obj->objectType = SuperPacMan;
+                    obj->verification = true;
+                }
+                
 
                 break; 
             }
